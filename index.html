@@ -590,7 +590,7 @@
     <div class="section-title">Guess Who?</div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:24px;">
       <div class="guess-who-wrap">
-        <img id="gw-img" class="guess-who-img" src="https://insidecroydon.com/wp-content/uploads/2012/06/andy-johnson.jpg?w=640" alt="Mystery Palace legend">
+        <div id="gw-img" class="guess-who-img" style="background:var(--palace-navy);height:200px;display:flex;align-items:center;justify-content:center;font-size:80px;filter:blur(0);">⚽</div>
         <div class="guess-who-overlay" id="gw-overlay">Who am I? 👀</div>
       </div>
       <div class="quiz-q-label" style="margin-bottom:12px">Which Crystal Palace legend is this?</div>
@@ -792,7 +792,6 @@
     document.querySelectorAll('#gw-options .opt-btn').forEach(b => b.disabled = true);
     if (correct) {
       btn.classList.add('correct');
-      document.getElementById('gw-img').classList.add('revealed');
       document.getElementById('gw-overlay').style.display = 'none';
       document.getElementById('gw-feedback').textContent = '⚽ Correct! It\'s Andy Johnson — Palace legend!';
       document.getElementById('gw-feedback').className = 'feedback ok';
@@ -801,7 +800,6 @@
       document.querySelectorAll('#gw-options .opt-btn').forEach(b => {
         if (b.textContent.trim() === 'Andy Johnson') b.classList.add('reveal');
       });
-      document.getElementById('gw-img').classList.add('revealed');
       document.getElementById('gw-overlay').style.display = 'none';
       document.getElementById('gw-feedback').textContent = 'Not quite — it\'s Andy Johnson!';
       document.getElementById('gw-feedback').className = 'feedback bad';

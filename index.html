@@ -365,6 +365,22 @@
     justify-content: center;
     font-size: 18px;
     flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .flag-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .flag-img-inline {
+    width: 22px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-left: 4px;
   }
 
   .feedback {
@@ -483,7 +499,7 @@
           <span style="font-size:17px;font-weight:600">Ismaïla Sarr</span>
           <span class="pots-badge">Player of the season</span>
         </div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:10px">Forward · Senegal 🇸🇳</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:10px">Forward · Senegal <img src="https://flagcdn.com/w40/sn.png" class="flag-img-inline" alt="Senegal"></div>
         <div class="player-stats-row">
           <div class="pstat"><div class="pstat-val">21</div><div class="pstat-lbl">Goals</div></div>
           <div class="pstat"><div class="pstat-val">45</div><div class="pstat-lbl">Apps</div></div>
@@ -519,6 +535,24 @@
       <div class="result-row"><span class="result-date">12 Apr</span><span class="result-teams">Crystal Palace vs Newcastle</span><span class="result-score">2–1</span><span class="rb rb-W">W</span></div>
       <div class="result-row"><span class="result-date">15 Mar</span><span class="result-teams">Crystal Palace vs Leeds</span><span class="result-score">0–0</span><span class="rb rb-D">D</span></div>
       <div class="result-row"><span class="result-date">5 Mar</span><span class="result-teams">Tottenham vs Crystal Palace</span><span class="result-score">1–3</span><span class="rb rb-W">W</span></div>
+    </div>
+
+    <div class="section-title">Club legend</div>
+    <div class="player-card">
+      <div class="player-initials">AJ</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:4px">
+          <span style="font-size:17px;font-weight:600">Andy Johnson</span>
+          <span class="pots-badge">Club Legend</span>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:10px">Forward · England <img src="https://flagcdn.com/w40/gb-eng.png" class="flag-img-inline" alt="England"></div>
+        <div class="player-stats-row">
+          <div class="pstat"><div class="pstat-val">85</div><div class="pstat-lbl">Goals</div></div>
+          <div class="pstat"><div class="pstat-val">160</div><div class="pstat-lbl">Apps</div></div>
+          <div class="pstat"><div class="pstat-val">32</div><div class="pstat-lbl">Top scorer 03/04</div></div>
+          <div class="pstat"><div class="pstat-val">8</div><div class="pstat-lbl">England caps</div></div>
+        </div>
+      </div>
     </div>
 
     <div class="section-title">League position</div>
@@ -557,6 +591,7 @@
 
     <div id="quiz-final" style="display:none">
       <div class="score-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/2026_FIFA_World_Cup_emblem.svg/200px-2026_FIFA_World_Cup_emblem.svg.png" alt="2026 FIFA World Cup" style="width:140px;margin-bottom:20px;">
         <div class="score-big" id="final-score"></div>
         <div class="score-sub">out of 12</div>
         <div class="verdict" id="verdict"></div>
@@ -578,26 +613,33 @@
   }
 
   const players = [
-    { name: "Ismaïla Sarr", initials: "IS", pos: "Forward", country: "Senegal", flag: "🇸🇳" },
-    { name: "Dean Henderson", initials: "DH", pos: "Goalkeeper", country: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
-    { name: "Jean-Philippe Mateta", initials: "JM", pos: "Forward", country: "France", flag: "🇫🇷" },
-    { name: "Maxence Lacroix", initials: "ML", pos: "Defender", country: "France", flag: "🇫🇷" },
-    { name: "Daniel Muñoz", initials: "DM", pos: "Defender", country: "Colombia", flag: "🇨🇴" },
-    { name: "Jefferson Lerma", initials: "JL", pos: "Midfielder", country: "Colombia", flag: "🇨🇴" },
-    { name: "Daichi Kamada", initials: "DK", pos: "Midfielder", country: "Japan", flag: "🇯🇵" },
-    { name: "Yéremy Pino", initials: "YP", pos: "Forward", country: "Spain", flag: "🇪🇸" },
-    { name: "Chris Richards", initials: "CR", pos: "Defender", country: "United States", flag: "🇺🇸" },
-    { name: "Chadi Riad", initials: "CH", pos: "Defender", country: "Morocco", flag: "🇲🇦" },
-    { name: "Jørgen Strand Larsen", initials: "JS", pos: "Forward", country: "Norway", flag: "🇳🇴" },
-    { name: "Owen Goodman", initials: "OG", pos: "Goalkeeper", country: "Canada", flag: "🇨🇦" }
+    { name: "Ismaïla Sarr", initials: "IS", pos: "Forward", country: "Senegal", code: "sn" },
+    { name: "Dean Henderson", initials: "DH", pos: "Goalkeeper", country: "England", code: "gb-eng" },
+    { name: "Jean-Philippe Mateta", initials: "JM", pos: "Forward", country: "France", code: "fr" },
+    { name: "Maxence Lacroix", initials: "ML", pos: "Defender", country: "France", code: "fr" },
+    { name: "Daniel Muñoz", initials: "DM", pos: "Defender", country: "Colombia", code: "co" },
+    { name: "Jefferson Lerma", initials: "JL", pos: "Midfielder", country: "Colombia", code: "co" },
+    { name: "Daichi Kamada", initials: "DK", pos: "Midfielder", country: "Japan", code: "jp" },
+    { name: "Yéremy Pino", initials: "YP", pos: "Forward", country: "Spain", code: "es" },
+    { name: "Chris Richards", initials: "CR", pos: "Defender", country: "United States", code: "us" },
+    { name: "Chadi Riad", initials: "CH", pos: "Defender", country: "Morocco", code: "ma" },
+    { name: "Jørgen Strand Larsen", initials: "JS", pos: "Forward", country: "Norway", code: "no" },
+    { name: "Owen Goodman", initials: "OG", pos: "Goalkeeper", country: "Canada", code: "ca" }
   ];
 
   const decoys = ["Germany","Brazil","Portugal","Argentina","Belgium","Netherlands","Italy","Mexico","Ghana","Australia","South Korea","Switzerland"];
   const allCountries = [...new Set(players.map(p => p.country)), ...decoys];
+
   const flagMap = {};
-  players.forEach(p => flagMap[p.country] = p.flag);
-  const decoyFlags = {"Germany":"🇩🇪","Brazil":"🇧🇷","Portugal":"🇵🇹","Argentina":"🇦🇷","Belgium":"🇧🇪","Netherlands":"🇳🇱","Italy":"🇮🇹","Mexico":"🇲🇽","Ghana":"🇬🇭","Australia":"🇦🇺","South Korea":"🇰🇷","Switzerland":"🇨🇭"};
+  players.forEach(p => flagMap[p.country] = p.code);
+  const decoyFlags = {"Germany":"de","Brazil":"br","Portugal":"pt","Argentina":"ar","Belgium":"be","Netherlands":"nl","Italy":"it","Mexico":"mx","Ghana":"gh","Australia":"au","South Korea":"kr","Switzerland":"ch"};
   Object.assign(flagMap, decoyFlags);
+
+  function flagImg(country, size = 40) {
+    const code = flagMap[country];
+    if (!code) return '';
+    return `<img src="https://flagcdn.com/w${size}/${code}.png" alt="${country}" style="width:${size === 40 ? 30 : size}px;height:${size === 40 ? 20 : Math.round(size*0.67)}px;object-fit:cover;border-radius:3px;">`;
+  }
 
   let order = [], qi = 0, score = 0, answered = false;
 
@@ -642,7 +684,7 @@
     opts.forEach(c => {
       const btn = document.createElement('button');
       btn.className = 'opt-btn';
-      btn.innerHTML = `<span class="flag-circle">${flagMap[c] || '🏳'}</span>${c}`;
+      btn.innerHTML = `<span class="flag-circle">${flagImg(c)}</span>${c}`;
       btn.onclick = () => pick(btn, c, p.country, p);
       grid.appendChild(btn);
     });
@@ -656,14 +698,14 @@
     if (chosen === correct) {
       score++;
       btn.classList.add('correct');
-      document.getElementById('feedback').textContent = `Correct! ${p.name} plays for ${correct} ${flagMap[correct] || ''}`;
+      document.getElementById('feedback').innerHTML = `Correct! ${p.name} plays for ${correct} ${flagImg(correct, 32)}`;
       document.getElementById('feedback').className = 'feedback ok';
     } else {
       btn.classList.add('wrong');
       document.querySelectorAll('.opt-btn').forEach(b => {
-        if (b.textContent.trim().includes(correct)) b.classList.add('reveal');
+        if (b.textContent.trim() === correct) b.classList.add('reveal');
       });
-      document.getElementById('feedback').textContent = `Not quite — ${p.name} represents ${correct} ${flagMap[correct] || ''}`;
+      document.getElementById('feedback').innerHTML = `Not quite — ${p.name} represents ${correct} ${flagImg(correct, 32)}`;
       document.getElementById('feedback').className = 'feedback bad';
     }
 

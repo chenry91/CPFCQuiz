@@ -620,6 +620,22 @@
       <div class="feedback" id="gw-feedback-2"></div>
     </div>
 
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:24px;">
+      <div class="guess-who-wrap">
+        <img id="gw-img-3" class="guess-who-img" src="scotlands-dougie-freedman-during-the-world-cup-qualifying-game-at-G5M2BP.jpg" alt="Mystery Palace player" onerror="this.style.display='none';document.getElementById('gw-fb-3').style.display='flex'">
+        <div id="gw-fb-3" class="guess-who-img" style="display:none;background:var(--palace-navy);height:200px;align-items:center;justify-content:center;font-size:80px;">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
+        <div class="guess-who-overlay" id="gw-overlay-3">Who am I? 👀</div>
+      </div>
+      <div class="quiz-q-label" style="margin-bottom:12px">Which Crystal Palace legend is this?</div>
+      <div class="options-grid" id="gw-options-3">
+        <button class="opt-btn" onclick="guessWho(3, this, false)">Ian Wright</button>
+        <button class="opt-btn" onclick="guessWho(3, this, false)">Mark Bright</button>
+        <button class="opt-btn" onclick="guessWho(3, this, true)">Dougie Freedman</button>
+        <button class="opt-btn" onclick="guessWho(3, this, false)">Clinton Morrison</button>
+      </div>
+      <div class="feedback" id="gw-feedback-3"></div>
+    </div>
+
     <div class="section-title">League position</div>
     <div class="standing-row">
       <span class="standing-rank">15</span>
@@ -802,9 +818,9 @@
     document.getElementById('verdict').textContent = v ? v[2] : '';
   }
 
-  const gwAnswered = { 1: false, 2: false };
-  const gwAnswers = { 1: 'Andy Johnson', 2: 'Victor Moses' };
-  const gwMessages = { 1: 'Andy Johnson — Palace legend!', 2: 'Victor Moses — Nigeria 🇳🇬' };
+  const gwAnswered = { 1: false, 2: false, 3: false };
+  const gwAnswers = { 1: 'Andy Johnson', 2: 'Victor Moses', 3: 'Dougie Freedman' };
+  const gwMessages = { 1: 'Andy Johnson — Palace legend!', 2: 'Victor Moses — Nigeria 🇳🇬', 3: 'Dougie Freedman — Palace legend! 🏴󠁧󠁢󠁳󠁣󠁴󠁿' };
 
   function guessWho(id, btn, correct) {
     if (gwAnswered[id]) return;

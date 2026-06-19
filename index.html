@@ -481,6 +481,57 @@
 
   .replay-btn:hover { background: #a00d25; }
 
+  .wheel-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 0;
+  }
+
+  .wheel-pointer {
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 28px solid var(--palace-red);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    margin-bottom: -14px;
+    z-index: 1;
+  }
+
+  .spin-btn {
+    padding: 13px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    background: var(--palace-red);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .spin-btn:hover:not(:disabled) { background: #a00d25; }
+  .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .goat-result {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--palace-red);
+    text-align: center;
+    min-height: 32px;
+  }
+
+  .goat-sub {
+    font-size: 14px;
+    color: var(--text2);
+    text-align: center;
+    margin-top: 4px;
+  }
+
   @media (max-width: 480px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .options-grid { grid-template-columns: 1fr; }
@@ -508,6 +559,7 @@
 <nav>
   <button class="active" onclick="showPage('tracker', this)">Results</button>
   <button onclick="showPage('quiz', this)">World Cup quiz</button>
+  <button onclick="showPage('goat', this)">GOAT Wheel</button>
 </nav>
 
 <main>
@@ -683,6 +735,18 @@
 
   </div>
 
+  <!-- GOAT WHEEL PAGE -->
+  <div class="page" id="page-goat">
+    <div class="wheel-wrap">
+      <div style="font-size:13px;color:var(--text2);text-align:center;">Spin the wheel to find out who the GOAT is!</div>
+      <div class="wheel-pointer"></div>
+      <canvas id="goat-wheel" width="320" height="320" style="border-radius:50%;box-shadow:0 4px 24px rgba(0,0,0,0.15);"></canvas>
+      <button class="spin-btn" id="spin-btn" onclick="spinWheel()">SPIN</button>
+      <div class="goat-result" id="goat-result"></div>
+      <div class="goat-sub" id="goat-sub"></div>
+    </div>
+  </div>
+
 </main>
 
 <script>
@@ -842,6 +906,107 @@
       document.getElementById(`gw-feedback-${id}`).className = 'feedback bad';
     }
   }
+
+  // GOAT Wheel
+  const goatPlayers = [
+    { name: "Eberechi Eze", emoji: "⚡" },
+    { name: "Michael Olise", emoji: "🌟" },
+    { name: "Wilfried Zaha", emoji: "🦅" },
+    { name: "Yannick Bolasie", emoji: "🕺" },
+    { name: "Chris Armstrong", emoji: "🎯" }
+  ];
+
+  const wheelColors = ['#C8102E','#1B2859','#C8102E','#1B2859','#C8102E'];
+  const wheelTextColors = ['#fff','#fff','#fff','#fff','#fff'];
+  const numSegments = goatPlayers.length;
+  const arc = (2 * Math.PI) / numSegments;
+  let currentAngle = 0;
+  let spinning = false;
+
+  function drawWheel(angle) {
+    const canvas = document.getElementById('goat-wheel');
+    const ctx = canvas.getContext('2d');
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const r = cx - 4;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < numSegments; i++) {
+      const start = angle + i * arc;
+      const end = start + arc;
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, start, end);
+      ctx.closePath();
+      ctx.fillStyle = wheelColors[i];
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(start + arc / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = wheelTextColors[i];
+      ctx.font = 'bold 13px Inter, sans-serif';
+      ctx.fillText(goatPlayers[i].name, r - 12, 5);
+      ctx.font = '16px sans-serif';
+      ctx.fillText(goatPlayers[i].emoji, r - 12 - ctx.measureText(goatPlayers[i].name).width - 6, 5);
+      ctx.restore();
+    }
+
+    // Centre circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, 2 * Math.PI);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = '#C8102E';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  function spinWheel() {
+    if (spinning) return;
+    spinning = true;
+    document.getElementById('spin-btn').disabled = true;
+    document.getElementById('goat-result').textContent = '';
+    document.getElementById('goat-sub').textContent = '';
+
+    const extraSpins = (5 + Math.floor(Math.random() * 5)) * 2 * Math.PI;
+    const targetAngle = currentAngle + extraSpins + Math.random() * 2 * Math.PI;
+    const duration = 4000;
+    const start = performance.now();
+    const startAngle = currentAngle;
+
+    function animate(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4);
+      currentAngle = startAngle + (targetAngle - startAngle) * ease;
+      drawWheel(currentAngle);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        currentAngle = targetAngle % (2 * Math.PI);
+        spinning = false;
+        document.getElementById('spin-btn').disabled = false;
+
+        // Pointer is at top (270deg = -PI/2), find which segment it lands on
+        const normalised = (((-currentAngle - Math.PI / 2) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+        const index = Math.floor(normalised / arc) % numSegments;
+        const winner = goatPlayers[index];
+        document.getElementById('goat-result').textContent = `${winner.emoji} ${winner.name}`;
+        document.getElementById('goat-sub').textContent = 'is the GOAT! 🐐';
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Draw wheel on page load
+  drawWheel(0);
 </script>
 </body>
 </html>

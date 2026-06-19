@@ -828,6 +828,7 @@
     const answer = gwAnswers[id];
     document.querySelectorAll(`#gw-options-${id} .opt-btn`).forEach(b => b.disabled = true);
     document.getElementById(`gw-overlay-${id}`).style.display = 'none';
+    document.getElementById(`gw-img-${id}`).classList.add('revealed');
     if (correct) {
       btn.classList.add('correct');
       document.getElementById(`gw-feedback-${id}`).textContent = `⚽ Correct! It's ${gwMessages[id]}`;

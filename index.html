@@ -588,19 +588,36 @@
     </div>
 
     <div class="section-title">Guess Who?</div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:24px;">
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
       <div class="guess-who-wrap">
-        <div id="gw-img" class="guess-who-img" style="background:var(--palace-navy);height:200px;display:flex;align-items:center;justify-content:center;font-size:80px;filter:blur(0);">⚽</div>
-        <div class="guess-who-overlay" id="gw-overlay">Who am I? 👀</div>
+        <div id="gw-img-1" class="guess-who-img" style="background:var(--palace-navy);height:200px;display:flex;align-items:center;justify-content:center;font-size:80px;">⚽</div>
+        <div class="guess-who-overlay" id="gw-overlay-1">Who am I? 👀</div>
       </div>
       <div class="quiz-q-label" style="margin-bottom:12px">Which Crystal Palace legend is this?</div>
-      <div class="options-grid" id="gw-options">
-        <button class="opt-btn" onclick="guessWho(this, false)">Ian Wright</button>
-        <button class="opt-btn" onclick="guessWho(this, true)">Andy Johnson</button>
-        <button class="opt-btn" onclick="guessWho(this, false)">Mark Bright</button>
-        <button class="opt-btn" onclick="guessWho(this, false)">Wilfried Zaha</button>
+      <div class="options-grid" id="gw-options-1">
+        <button class="opt-btn" onclick="guessWho(1, this, false)">Ian Wright</button>
+        <button class="opt-btn" onclick="guessWho(1, this, true)">Andy Johnson</button>
+        <button class="opt-btn" onclick="guessWho(1, this, false)">Mark Bright</button>
+        <button class="opt-btn" onclick="guessWho(1, this, false)">Wilfried Zaha</button>
       </div>
-      <div class="feedback" id="gw-feedback"></div>
+      <div class="feedback" id="gw-feedback-1"></div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:24px;">
+      <div class="guess-who-wrap">
+        <img id="gw-img-2" class="guess-who-img" src="https://e0.365dm.com/14/06/2048x1152/football-2014-fifa-world-cup-victor-moses-nigeria_3163659.jpg?20140625123740" alt="Mystery Palace player" onerror="this.style.display='none';document.getElementById('gw-fb-2').style.display='flex'">
+        <div id="gw-fb-2" class="guess-who-img" style="display:none;background:var(--palace-navy);height:200px;align-items:center;justify-content:center;font-size:80px;">🇳🇬</div>
+        <div class="guess-who-overlay" id="gw-overlay-2">Who am I? 👀</div>
+      </div>
+      <div class="quiz-q-label" style="margin-bottom:12px">Which Palace player is representing Nigeria at the 2026 World Cup?</div>
+      <div class="options-grid" id="gw-options-2">
+        <button class="opt-btn" onclick="guessWho(2, this, false)">Wilfried Zaha</button>
+        <button class="opt-btn" onclick="guessWho(2, this, false)">Jeffrey Schlupp</button>
+        <button class="opt-btn" onclick="guessWho(2, this, true)">Victor Moses</button>
+        <button class="opt-btn" onclick="guessWho(2, this, false)">Cheikhou Kouyaté</button>
+      </div>
+      <div class="feedback" id="gw-feedback-2"></div>
     </div>
 
     <div class="section-title">League position</div>
@@ -785,24 +802,27 @@
     document.getElementById('verdict').textContent = v ? v[2] : '';
   }
 
-  let gwAnswered = false;
-  function guessWho(btn, correct) {
-    if (gwAnswered) return;
-    gwAnswered = true;
-    document.querySelectorAll('#gw-options .opt-btn').forEach(b => b.disabled = true);
+  const gwAnswered = { 1: false, 2: false };
+  const gwAnswers = { 1: 'Andy Johnson', 2: 'Victor Moses' };
+  const gwMessages = { 1: 'Andy Johnson — Palace legend!', 2: 'Victor Moses — Nigeria 🇳🇬' };
+
+  function guessWho(id, btn, correct) {
+    if (gwAnswered[id]) return;
+    gwAnswered[id] = true;
+    const answer = gwAnswers[id];
+    document.querySelectorAll(`#gw-options-${id} .opt-btn`).forEach(b => b.disabled = true);
+    document.getElementById(`gw-overlay-${id}`).style.display = 'none';
     if (correct) {
       btn.classList.add('correct');
-      document.getElementById('gw-overlay').style.display = 'none';
-      document.getElementById('gw-feedback').textContent = '⚽ Correct! It\'s Andy Johnson — Palace legend!';
-      document.getElementById('gw-feedback').className = 'feedback ok';
+      document.getElementById(`gw-feedback-${id}`).textContent = `⚽ Correct! It's ${gwMessages[id]}`;
+      document.getElementById(`gw-feedback-${id}`).className = 'feedback ok';
     } else {
       btn.classList.add('wrong');
-      document.querySelectorAll('#gw-options .opt-btn').forEach(b => {
-        if (b.textContent.trim() === 'Andy Johnson') b.classList.add('reveal');
+      document.querySelectorAll(`#gw-options-${id} .opt-btn`).forEach(b => {
+        if (b.textContent.trim() === answer) b.classList.add('reveal');
       });
-      document.getElementById('gw-overlay').style.display = 'none';
-      document.getElementById('gw-feedback').textContent = 'Not quite — it\'s Andy Johnson!';
-      document.getElementById('gw-feedback').className = 'feedback bad';
+      document.getElementById(`gw-feedback-${id}`).textContent = `Not quite — it's ${gwMessages[id]}`;
+      document.getElementById(`gw-feedback-${id}`).className = 'feedback bad';
     }
   }
 </script>
